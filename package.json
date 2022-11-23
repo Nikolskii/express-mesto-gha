@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/Nikolskii/express-mesto-gha.git"
   },
-  "author": "",
+  "author": "Denis Nikolsky",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Nikolskii/express-mesto-gha/issues"

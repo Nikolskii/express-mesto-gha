@@ -18,5 +18,6 @@ mongoose.connect(
     app.listen(PORT, () => {
       console.log(`App listening on port ${PORT}!`);
     });
+    // eslint-disable-next-line comma-dangle
   }
 );

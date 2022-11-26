@@ -50,12 +50,8 @@ const likeCard = async (req, res) => {
   try {
     const card = await Card.findByIdAndUpdate(
       req.params.cardId,
-      {
-        $addToSet: { likes: req.user._id },
-      },
-      {
-        new: true,
-      }
+      { $addToSet: { likes: req.user._id } },
+      { new: true }
     );
 
     res.status(200).send(card);
@@ -66,8 +62,20 @@ const likeCard = async (req, res) => {
   }
 };
 
-const dislikeCard = (req, res) => {
-  return res.status(200).send({ removeLike: true });
+const dislikeCard = async (req, res) => {
+  try {
+    const card = await Card.findByIdAndUpdate(
+      req.params.cardId,
+      { $pull: { likes: req.user._id } },
+      { new: true }
+    );
+
+    res.status(200).send(card);
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).send({ message: 'Произошла ошибка' });
+  }
 };
 
 module.exports = { getCards, createCard, deleteCard, likeCard, dislikeCard };

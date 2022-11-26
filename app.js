@@ -9,14 +9,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/users', router);
 
-// mongoose.connect('mongodb://127.0.0.1:27017/mestodb', () => {
-//   console.log('Подключено к MongoDB!');
-
-//   app.listen(PORT, () => {
-//     console.log(`Приложение запущено на порту ${PORT}!`);
-//   });
-// });
-
 mongoose.connect(
   'mongodb://127.0.0.1:27017/mestodb',
   {

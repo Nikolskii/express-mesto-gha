@@ -26,12 +26,17 @@ const getUser = async (req, res) => {
   }
 };
 
-const createUser = (req, res) => {
-  // const { name, about, avatar } = req.body;
-  // console.log(name, about, avatar);
-  // User.create({ name, about, avatar })
-  //   .then((user) => res.send({ data: user }))
-  //   .catch((err) => res.status(500).send({ message: 'Произошла ошибка' }));
+const createUser = async (req, res) => {
+  try {
+    const user = await User.create(req.body);
+    return res.status(201).send(user);
+  } catch (e) {
+    console.error(e);
+
+    const errors = Object.values(e.errors).map((err) => err.message);
+
+    return res.status(500).send({ message: errors.join(', ') });
+  }
 };
 
 module.exports = { getUsers, getUser, createUser };

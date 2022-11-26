@@ -28,8 +28,22 @@ const createCard = async (req, res) => {
   }
 };
 
-const deleteCard = (req, res) => {
-  return res.status(200).send({ deleteCard: true });
+const deleteCard = async (req, res) => {
+  try {
+    const { cardId } = req.params;
+
+    const card = await Card.findByIdAndRemove(cardId);
+
+    if (!card) {
+      return res.status(404).send({ message: 'Карточка не найдена' });
+    }
+
+    return res.status(200).send(card);
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).send({ message: 'Произошла ошибка' });
+  }
 };
 
 module.exports = { getCards, createCard, deleteCard };

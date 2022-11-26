@@ -46,4 +46,28 @@ const deleteCard = async (req, res) => {
   }
 };
 
-module.exports = { getCards, createCard, deleteCard };
+const likeCard = async (req, res) => {
+  try {
+    const card = await Card.findByIdAndUpdate(
+      req.params.cardId,
+      {
+        $addToSet: { likes: req.user._id },
+      },
+      {
+        new: true,
+      }
+    );
+
+    res.status(200).send(card);
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).send({ message: 'Произошла ошибка' });
+  }
+};
+
+const dislikeCard = (req, res) => {
+  return res.status(200).send({ removeLike: true });
+};
+
+module.exports = { getCards, createCard, deleteCard, likeCard, dislikeCard };

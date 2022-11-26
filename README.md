@@ -2,7 +2,7 @@
 
 # Проект Mesto фронтенд + бэкенд
 
-## [Репозиторий проекта](https://github.com/Nikolskii/express-mesto-gha)
+### [Репозиторий проекта](https://github.com/Nikolskii/express-mesto-gha)
 
 ## Директории
 

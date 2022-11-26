@@ -28,14 +28,15 @@ const getUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const user = await User.create(req.body);
+    const { name, about, avatar } = req.body;
+    const user = await User.create({ name, about, avatar });
     return res.status(201).send(user);
   } catch (e) {
     console.error(e);
 
     const errors = Object.values(e.errors).map((err) => err.message);
 
-    return res.status(500).send({ message: errors.join(', ') });
+    return res.status(400).send({ message: errors.join(', ') });
   }
 };
 

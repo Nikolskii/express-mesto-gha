@@ -1,7 +1,15 @@
 const Card = require('../models/card');
 
-const getCards = (req, res) => {
-  return res.status(200).send({ getCards: true });
+const getCards = async (req, res) => {
+  try {
+    const cards = await Card.find({});
+
+    return res.status(200).send(cards);
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).send({ message: 'Произошла ошибка' });
+  }
 };
 
 const createCard = async (req, res) => {

@@ -5,7 +5,7 @@ const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
 
-    return res.status(200).send(users);
+    return res.status(statusCodes.OK).send(users);
   } catch (e) {
     return res
       .status(statusCodes.INTERNAL_SERVER_ERROR)
@@ -24,7 +24,7 @@ const getUser = async (req, res) => {
         .send({ message: 'Пользователь не найден' });
     }
 
-    return res.status(200).send(user);
+    return res.status(statusCodes.OK).send(user);
   } catch (e) {
     if (e.name === 'CastError') {
       return res
@@ -43,7 +43,7 @@ const createUser = async (req, res) => {
   try {
     const user = await User.create({ name, about, avatar });
 
-    return res.status(201).send(user);
+    return res.status(statusCodes.CREATED).send(user);
   } catch (e) {
     if (e.name === 'ValidationError') {
       return res
@@ -78,7 +78,7 @@ const updateUser = async (req, res) => {
         .send({ message: 'Пользователь не найден' });
     }
 
-    return res.status(200).send(updatedUser);
+    return res.status(statusCodes.OK).send(updatedUser);
   } catch (e) {
     if (e.name === 'ValidationError' || e.name === 'CastError') {
       return res
@@ -112,7 +112,7 @@ const updateAvatar = async (req, res) => {
         .send({ message: 'Пользователь не найден' });
     }
 
-    return res.status(200).send(updatedUser);
+    return res.status(statusCodes.OK).send(updatedUser);
   } catch (e) {
     if (e.name === 'ValidationError' || e.name === 'CastError') {
       return res

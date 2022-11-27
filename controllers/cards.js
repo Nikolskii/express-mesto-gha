@@ -5,7 +5,7 @@ const getCards = async (req, res) => {
   try {
     const cards = await Card.find({});
 
-    return res.status(200).send(cards);
+    return res.status(statusCodes.OK).send(cards);
   } catch (e) {
     return res
       .status(statusCodes.INTERNAL_SERVER_ERROR)
@@ -18,7 +18,7 @@ const createCard = async (req, res) => {
   try {
     const card = await Card.create({ name, link, owner: req.user._id });
 
-    return res.status(201).send(card);
+    return res.status(statusCodes.CREATED).send(card);
   } catch (e) {
     if (e.name === 'ValidationError') {
       return res
@@ -43,7 +43,7 @@ const deleteCard = async (req, res) => {
         .send({ message: 'Карточка не найдена' });
     }
 
-    return res.status(200).send(card);
+    return res.status(statusCodes.OK).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       return res
@@ -71,7 +71,7 @@ const likeCard = async (req, res) => {
         .send({ message: 'Карточка не найдена' });
     }
 
-    return res.status(200).send(card);
+    return res.status(statusCodes.OK).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       return res
@@ -99,7 +99,7 @@ const dislikeCard = async (req, res) => {
         .send({ message: 'Карточка не найдена' });
     }
 
-    return res.status(200).send(card);
+    return res.status(statusCodes.OK).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       return res

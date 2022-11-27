@@ -48,6 +48,12 @@ const deleteCard = async (req, res) => {
 
     return res.status(200).send(card);
   } catch (e) {
+    if (e.name === 'CastError') {
+      return res
+        .status(BAD_REQUEST)
+        .send({ message: 'Переданы некорректные данные' });
+    }
+
     return res
       .status(INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
@@ -68,6 +74,12 @@ const likeCard = async (req, res) => {
 
     return res.status(200).send(card);
   } catch (e) {
+    if (e.name === 'CastError') {
+      return res
+        .status(BAD_REQUEST)
+        .send({ message: 'Переданы некорректные данные' });
+    }
+
     return res
       .status(INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
@@ -88,6 +100,12 @@ const dislikeCard = async (req, res) => {
 
     return res.status(200).send(card);
   } catch (e) {
+    if (e.name === 'CastError') {
+      return res
+        .status(BAD_REQUEST)
+        .send({ message: 'Переданы некорректные данные' });
+    }
+
     return res
       .status(INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });

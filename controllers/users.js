@@ -80,7 +80,7 @@ const updateUser = async (req, res) => {
 
     return res.status(200).send(updatedUser);
   } catch (e) {
-    if (e.name === 'ValidationError') {
+    if (e.name === 'ValidationError' || e.name === 'CastError') {
       return res
         .status(statusCodes.BAD_REQUEST)
         .send({ message: 'Переданы некорректные данные' });
@@ -114,7 +114,7 @@ const updateAvatar = async (req, res) => {
 
     return res.status(200).send(updatedUser);
   } catch (e) {
-    if (e.name === 'ValidationError') {
+    if (e.name === 'ValidationError' || e.name === 'CastError') {
       return res
         .status(statusCodes.BAD_REQUEST)
         .send({ message: 'Переданы некорректные данные' });

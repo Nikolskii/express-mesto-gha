@@ -10,8 +10,6 @@ const getCards = async (req, res) => {
 
     return res.status(200).send(cards);
   } catch (e) {
-    console.error(e);
-
     return res
       .status(INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
@@ -26,8 +24,6 @@ const createCard = async (req, res) => {
 
     return res.status(201).send(card);
   } catch (e) {
-    console.error(e);
-
     if (e.name === 'ValidationError') {
       return res
         .status(BAD_REQUEST)
@@ -52,8 +48,6 @@ const deleteCard = async (req, res) => {
 
     return res.status(200).send(card);
   } catch (e) {
-    console.error(e);
-
     return res
       .status(INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
@@ -65,7 +59,7 @@ const likeCard = async (req, res) => {
     const card = await Card.findByIdAndUpdate(
       req.params.cardId,
       { $addToSet: { likes: req.user._id } },
-      { new: true }
+      { new: true },
     );
 
     if (!card) {
@@ -74,8 +68,6 @@ const likeCard = async (req, res) => {
 
     return res.status(200).send(card);
   } catch (e) {
-    console.error(e);
-
     return res
       .status(INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
@@ -87,7 +79,7 @@ const dislikeCard = async (req, res) => {
     const card = await Card.findByIdAndUpdate(
       req.params.cardId,
       { $pull: { likes: req.user._id } },
-      { new: true }
+      { new: true },
     );
 
     if (!card) {
@@ -96,12 +88,16 @@ const dislikeCard = async (req, res) => {
 
     return res.status(200).send(card);
   } catch (e) {
-    console.error(e);
-
     return res
       .status(INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 
-module.exports = { getCards, createCard, deleteCard, likeCard, dislikeCard };
+module.exports = {
+  getCards,
+  createCard,
+  deleteCard,
+  likeCard,
+  dislikeCard,
+};

@@ -25,11 +25,5 @@ mongoose.connect(
   {
     useNewUrlParser: true,
   },
-  () => {
-    console.log('Подключено к MongoDB!');
-
-    app.listen(PORT, () => {
-      console.log(`Приложение запущено на порту ${PORT}!`);
-    });
-  }
+  () => app.listen(PORT),
 );

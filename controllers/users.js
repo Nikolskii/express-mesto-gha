@@ -16,8 +16,6 @@ const getUsers = async (req, res) => {
 
     return res.status(200).send(users);
   } catch (e) {
-    console.error(e);
-
     return res
       .status(INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
@@ -36,8 +34,6 @@ const getUser = async (req, res) => {
 
     return res.status(200).send(user);
   } catch (e) {
-    console.error(e);
-
     return res
       .status(INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
@@ -52,8 +48,6 @@ const createUser = async (req, res) => {
 
     return res.status(201).send(user);
   } catch (e) {
-    console.error(e);
-
     if (e.name === 'ValidationError') {
       return res
         .status(BAD_REQUEST)
@@ -79,7 +73,7 @@ const updateUser = async (req, res) => {
       {
         new: true,
         runValidators: true,
-      }
+      },
     );
 
     if (!updatedUser) {
@@ -88,8 +82,6 @@ const updateUser = async (req, res) => {
 
     return res.status(200).send(updatedUser);
   } catch (e) {
-    console.error(e);
-
     if (e.name === 'ValidationError') {
       return res
         .status(BAD_REQUEST)
@@ -114,7 +106,7 @@ const updateAvatar = async (req, res) => {
       {
         new: true,
         runValidators: true,
-      }
+      },
     );
 
     if (!updatedUser) {
@@ -123,8 +115,6 @@ const updateAvatar = async (req, res) => {
 
     return res.status(200).send(updatedUser);
   } catch (e) {
-    console.error(e);
-
     if (e.name === 'ValidationError') {
       return res
         .status(BAD_REQUEST)

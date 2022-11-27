@@ -14,9 +14,8 @@ const getUsers = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
+  const { userId } = req.params;
   try {
-    const { userId } = req.params;
-
     const user = await User.findById(userId);
 
     if (!user) {
@@ -40,9 +39,8 @@ const getUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
+  const { name, about, avatar } = req.body;
   try {
-    const { name, about, avatar } = req.body;
-
     const user = await User.create({ name, about, avatar });
 
     return res.status(201).send(user);
@@ -60,9 +58,8 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
+  const { name, about } = req.body;
   try {
-    const { name, about } = req.body;
-
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
       {
@@ -96,9 +93,8 @@ const updateUser = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
+  const { avatar } = req.body;
   try {
-    const { avatar } = req.body;
-
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
       {

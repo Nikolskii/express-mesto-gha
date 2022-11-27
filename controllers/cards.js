@@ -14,9 +14,8 @@ const getCards = async (req, res) => {
 };
 
 const createCard = async (req, res) => {
+  const { name, link } = req.body;
   try {
-    const { name, link } = req.body;
-
     const card = await Card.create({ name, link, owner: req.user._id });
 
     return res.status(201).send(card);
@@ -34,9 +33,8 @@ const createCard = async (req, res) => {
 };
 
 const deleteCard = async (req, res) => {
+  const { cardId } = req.params;
   try {
-    const { cardId } = req.params;
-
     const card = await Card.findByIdAndRemove(cardId);
 
     if (!card) {

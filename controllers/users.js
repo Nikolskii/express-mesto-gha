@@ -99,7 +99,7 @@ const updateAvatar = async (req, res) => {
   try {
     const { avatar } = req.body;
 
-    const updatedAvatar = await User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
       {
         avatar,
@@ -110,9 +110,19 @@ const updateAvatar = async (req, res) => {
       }
     );
 
-    return res.status(200).send(updatedAvatar);
+    if (!updatedUser) {
+      return res.status(NOT_FOUND).send({ message: 'Пользователь не найден' });
+    }
+
+    return res.status(200).send(updatedUser);
   } catch (e) {
     console.error(e);
+
+    if (e.name === 'ValidationError') {
+      return res
+        .status(BAD_REQUEST)
+        .send({ message: 'Переданы некорректные данные' });
+    }
 
     return res
       .status(INTERNAL_SERVER_ERROR)

@@ -1,5 +1,9 @@
 const User = require('../models/user');
 
+const BAD_REQUEST = 400;
+const INTERNAL_SERVER_ERROR = 500;
+const NOT_FOUND = 404;
+
 const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
@@ -8,7 +12,9 @@ const getUsers = async (req, res) => {
   } catch (e) {
     console.error(e);
 
-    return res.status(500).send({ message: 'Произошла ошибка' });
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 
@@ -19,14 +25,16 @@ const getUser = async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).send({ message: 'Пользователь не найден' });
+      return res.status(NOT_FOUND).send({ message: 'Пользователь не найден' });
     }
 
     return res.status(200).send(user);
   } catch (e) {
     console.error(e);
 
-    return res.status(500).send({ message: 'Произошла ошибка' });
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 
@@ -40,9 +48,14 @@ const createUser = async (req, res) => {
   } catch (e) {
     console.error(e);
 
-    const errors = Object.values(e.errors).map((err) => err.message);
-
-    return res.status(400).send({ message: errors.join(', ') });
+    if (e.name === 'ValidationError') {
+      return res
+        .status(BAD_REQUEST)
+        .send({ message: 'Переданы некорректные данные' });
+    }
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 
@@ -62,11 +75,23 @@ const updateUser = async (req, res) => {
       }
     );
 
+    if (!updatedUser) {
+      return res.status(NOT_FOUND).send({ message: 'Пользователь не найден' });
+    }
+
     return res.status(200).send(updatedUser);
   } catch (e) {
     console.error(e);
 
-    return res.status(500).send({ message: 'Произошла ошибка' });
+    if (e.name === 'ValidationError') {
+      return res
+        .status(BAD_REQUEST)
+        .send({ message: 'Переданы некорректные данные' });
+    }
+
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 
@@ -89,7 +114,9 @@ const updateAvatar = async (req, res) => {
   } catch (e) {
     console.error(e);
 
-    return res.status(500).send({ message: 'Произошла ошибка' });
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 

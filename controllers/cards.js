@@ -54,7 +54,7 @@ const likeCard = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).send(card);
+    return res.status(200).send(card);
   } catch (e) {
     console.error(e);
 
@@ -70,7 +70,7 @@ const dislikeCard = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).send(card);
+    return res.status(200).send(card);
   } catch (e) {
     console.error(e);
 

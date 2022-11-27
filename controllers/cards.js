@@ -1,5 +1,9 @@
 const Card = require('../models/card');
 
+const BAD_REQUEST = 400;
+const INTERNAL_SERVER_ERROR = 500;
+const NOT_FOUND = 404;
+
 const getCards = async (req, res) => {
   try {
     const cards = await Card.find({});
@@ -8,7 +12,9 @@ const getCards = async (req, res) => {
   } catch (e) {
     console.error(e);
 
-    return res.status(500).send({ message: 'Произошла ошибка' });
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 
@@ -22,9 +28,15 @@ const createCard = async (req, res) => {
   } catch (e) {
     console.error(e);
 
-    const errors = Object.values(e.errors).map((err) => err.message);
+    if (e.name === 'ValidationError') {
+      return res
+        .status(BAD_REQUEST)
+        .send({ message: 'Переданы некорректные данные' });
+    }
 
-    return res.status(400).send({ message: errors.join(', ') });
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 
@@ -35,14 +47,16 @@ const deleteCard = async (req, res) => {
     const card = await Card.findByIdAndRemove(cardId);
 
     if (!card) {
-      return res.status(404).send({ message: 'Карточка не найдена' });
+      return res.status(NOT_FOUND).send({ message: 'Карточка не найдена' });
     }
 
     return res.status(200).send(card);
   } catch (e) {
     console.error(e);
 
-    return res.status(500).send({ message: 'Произошла ошибка' });
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 
@@ -54,11 +68,17 @@ const likeCard = async (req, res) => {
       { new: true }
     );
 
+    if (!card) {
+      return res.status(NOT_FOUND).send({ message: 'Карточка не найдена' });
+    }
+
     return res.status(200).send(card);
   } catch (e) {
     console.error(e);
 
-    return res.status(500).send({ message: 'Произошла ошибка' });
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 
@@ -70,11 +90,17 @@ const dislikeCard = async (req, res) => {
       { new: true }
     );
 
+    if (!card) {
+      return res.status(NOT_FOUND).send({ message: 'Карточка не найдена' });
+    }
+
     return res.status(200).send(card);
   } catch (e) {
     console.error(e);
 
-    return res.status(500).send({ message: 'Произошла ошибка' });
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
 

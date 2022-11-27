@@ -1,5 +1,11 @@
 const User = require('../models/user');
 
+// import {
+//   BAD_REQUEST,
+//   INTERNAL_SERVER_ERROR,
+//   NOT_FOUND,
+// } from '../utils/constants';
+
 const BAD_REQUEST = 400;
 const INTERNAL_SERVER_ERROR = 500;
 const NOT_FOUND = 404;
@@ -53,6 +59,7 @@ const createUser = async (req, res) => {
         .status(BAD_REQUEST)
         .send({ message: 'Переданы некорректные данные' });
     }
+
     return res
       .status(INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });

@@ -1,8 +1,5 @@
+const statusCodes = require('../utils/constants');
 const Card = require('../models/card');
-
-const BAD_REQUEST = 400;
-const INTERNAL_SERVER_ERROR = 500;
-const NOT_FOUND = 404;
 
 const getCards = async (req, res) => {
   try {
@@ -11,7 +8,7 @@ const getCards = async (req, res) => {
     return res.status(200).send(cards);
   } catch (e) {
     return res
-      .status(INTERNAL_SERVER_ERROR)
+      .status(statusCodes.INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
@@ -26,12 +23,12 @@ const createCard = async (req, res) => {
   } catch (e) {
     if (e.name === 'ValidationError') {
       return res
-        .status(BAD_REQUEST)
+        .status(statusCodes.BAD_REQUEST)
         .send({ message: 'Переданы некорректные данные' });
     }
 
     return res
-      .status(INTERNAL_SERVER_ERROR)
+      .status(statusCodes.INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
@@ -43,19 +40,21 @@ const deleteCard = async (req, res) => {
     const card = await Card.findByIdAndRemove(cardId);
 
     if (!card) {
-      return res.status(NOT_FOUND).send({ message: 'Карточка не найдена' });
+      return res
+        .status(statusCodes.NOT_FOUND)
+        .send({ message: 'Карточка не найдена' });
     }
 
     return res.status(200).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       return res
-        .status(BAD_REQUEST)
+        .status(statusCodes.BAD_REQUEST)
         .send({ message: 'Переданы некорректные данные' });
     }
 
     return res
-      .status(INTERNAL_SERVER_ERROR)
+      .status(statusCodes.INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
@@ -69,19 +68,21 @@ const likeCard = async (req, res) => {
     );
 
     if (!card) {
-      return res.status(NOT_FOUND).send({ message: 'Карточка не найдена' });
+      return res
+        .status(statusCodes.NOT_FOUND)
+        .send({ message: 'Карточка не найдена' });
     }
 
     return res.status(200).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       return res
-        .status(BAD_REQUEST)
+        .status(statusCodes.BAD_REQUEST)
         .send({ message: 'Переданы некорректные данные' });
     }
 
     return res
-      .status(INTERNAL_SERVER_ERROR)
+      .status(statusCodes.INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };
@@ -95,19 +96,21 @@ const dislikeCard = async (req, res) => {
     );
 
     if (!card) {
-      return res.status(NOT_FOUND).send({ message: 'Карточка не найдена' });
+      return res
+        .status(statusCodes.NOT_FOUND)
+        .send({ message: 'Карточка не найдена' });
     }
 
     return res.status(200).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       return res
-        .status(BAD_REQUEST)
+        .status(statusCodes.BAD_REQUEST)
         .send({ message: 'Переданы некорректные данные' });
     }
 
     return res
-      .status(INTERNAL_SERVER_ERROR)
+      .status(statusCodes.INTERNAL_SERVER_ERROR)
       .send({ message: 'Произошла внутренняя ошибка сервера' });
   }
 };

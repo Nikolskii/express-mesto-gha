@@ -1,15 +1,15 @@
-const statusCodes = require('../utils/constants');
+const httpStatusCodes = require('../utils/constants');
 const User = require('../models/user');
 
 const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
 
-    return res.status(statusCodes.OK).send(users);
+    return res.status(httpStatusCodes.ok.code).send(users);
   } catch (e) {
     return res
-      .status(statusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: 'Произошла внутренняя ошибка сервера' });
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 
@@ -20,21 +20,21 @@ const getUser = async (req, res) => {
 
     if (!user) {
       return res
-        .status(statusCodes.NOT_FOUND)
-        .send({ message: 'Пользователь не найден' });
+        .status(httpStatusCodes.notFound.code)
+        .send({ message: httpStatusCodes.notFound.messageUser });
     }
 
-    return res.status(statusCodes.OK).send(user);
+    return res.status(httpStatusCodes.ok.code).send(user);
   } catch (e) {
     if (e.name === 'CastError') {
       return res
-        .status(statusCodes.BAD_REQUEST)
-        .send({ message: 'Переданы некорректные данные' });
+        .status(httpStatusCodes.badRequest.code)
+        .send({ message: httpStatusCodes.badRequest.message });
     }
 
     return res
-      .status(statusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: 'Произошла внутренняя ошибка сервера' });
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 
@@ -43,17 +43,17 @@ const createUser = async (req, res) => {
   try {
     const user = await User.create({ name, about, avatar });
 
-    return res.status(statusCodes.CREATED).send(user);
+    return res.status(httpStatusCodes.created.code).send(user);
   } catch (e) {
     if (e.name === 'ValidationError') {
       return res
-        .status(statusCodes.BAD_REQUEST)
-        .send({ message: 'Переданы некорректные данные' });
+        .status(httpStatusCodes.badRequest.code)
+        .send({ message: httpStatusCodes.internalServerError.message });
     }
 
     return res
-      .status(statusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: 'Произошла внутренняя ошибка сервера' });
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 
@@ -74,21 +74,21 @@ const updateUser = async (req, res) => {
 
     if (!updatedUser) {
       return res
-        .status(statusCodes.NOT_FOUND)
-        .send({ message: 'Пользователь не найден' });
+        .status(httpStatusCodes.notFound.code)
+        .send({ message: httpStatusCodes.notFound.messageUser });
     }
 
-    return res.status(statusCodes.OK).send(updatedUser);
+    return res.status(httpStatusCodes.ok.code).send(updatedUser);
   } catch (e) {
     if (e.name === 'ValidationError' || e.name === 'CastError') {
       return res
-        .status(statusCodes.BAD_REQUEST)
-        .send({ message: 'Переданы некорректные данные' });
+        .status(httpStatusCodes.badRequest.code)
+        .send({ message: httpStatusCodes.internalServerError.message });
     }
 
     return res
-      .status(statusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: 'Произошла внутренняя ошибка сервера' });
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 
@@ -108,21 +108,21 @@ const updateAvatar = async (req, res) => {
 
     if (!updatedUser) {
       return res
-        .status(statusCodes.NOT_FOUND)
-        .send({ message: 'Пользователь не найден' });
+        .status(httpStatusCodes.notFound.code)
+        .send({ message: httpStatusCodes.notFound.messageUser });
     }
 
-    return res.status(statusCodes.OK).send(updatedUser);
+    return res.status(httpStatusCodes.ok.code).send(updatedUser);
   } catch (e) {
     if (e.name === 'ValidationError' || e.name === 'CastError') {
       return res
-        .status(statusCodes.BAD_REQUEST)
-        .send({ message: 'Переданы некорректные данные' });
+        .status(httpStatusCodes.badRequest.code)
+        .send({ message: httpStatusCodes.badRequest.message });
     }
 
     return res
-      .status(statusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: 'Произошла внутренняя ошибка сервера' });
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 

@@ -1,15 +1,15 @@
-const statusCodes = require('../utils/constants');
+const httpStatusCodes = require('../utils/constants');
 const Card = require('../models/card');
 
 const getCards = async (req, res) => {
   try {
     const cards = await Card.find({});
 
-    return res.status(statusCodes.OK).send(cards);
+    return res.status(httpStatusCodes.ok.code).send(cards);
   } catch (e) {
     return res
-      .status(statusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: 'Произошла внутренняя ошибка сервера' });
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 
@@ -18,17 +18,17 @@ const createCard = async (req, res) => {
   try {
     const card = await Card.create({ name, link, owner: req.user._id });
 
-    return res.status(statusCodes.CREATED).send(card);
+    return res.status(httpStatusCodes.created.code).send(card);
   } catch (e) {
     if (e.name === 'ValidationError') {
       return res
-        .status(statusCodes.BAD_REQUEST)
-        .send({ message: 'Переданы некорректные данные' });
+        .status(httpStatusCodes.badRequest.code)
+        .send({ message: httpStatusCodes.badRequest.message });
     }
 
     return res
-      .status(statusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: 'Произошла внутренняя ошибка сервера' });
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 
@@ -39,21 +39,21 @@ const deleteCard = async (req, res) => {
 
     if (!card) {
       return res
-        .status(statusCodes.NOT_FOUND)
-        .send({ message: 'Карточка не найдена' });
+        .status(httpStatusCodes.notFound.code)
+        .send({ message: httpStatusCodes.notFound.messageCard });
     }
 
-    return res.status(statusCodes.OK).send(card);
+    return res.status(httpStatusCodes.ok.code).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       return res
-        .status(statusCodes.BAD_REQUEST)
-        .send({ message: 'Переданы некорректные данные' });
+        .status(httpStatusCodes.badRequest.code)
+        .send({ message: httpStatusCodes.badRequest.message });
     }
 
     return res
-      .status(statusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: 'Произошла внутренняя ошибка сервера' });
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 
@@ -67,21 +67,21 @@ const likeCard = async (req, res) => {
 
     if (!card) {
       return res
-        .status(statusCodes.NOT_FOUND)
-        .send({ message: 'Карточка не найдена' });
+        .status(httpStatusCodes.notFound.code)
+        .send({ message: httpStatusCodes.notFound.messageCard });
     }
 
-    return res.status(statusCodes.OK).send(card);
+    return res.status(httpStatusCodes.ok.code).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       return res
-        .status(statusCodes.BAD_REQUEST)
-        .send({ message: 'Переданы некорректные данные' });
+        .status(httpStatusCodes.badRequest.code)
+        .send({ message: httpStatusCodes.badRequest.message });
     }
 
     return res
-      .status(statusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: 'Произошла внутренняя ошибка сервера' });
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 
@@ -95,21 +95,21 @@ const dislikeCard = async (req, res) => {
 
     if (!card) {
       return res
-        .status(statusCodes.NOT_FOUND)
-        .send({ message: 'Карточка не найдена' });
+        .status(httpStatusCodes.notFound.code)
+        .send({ message: httpStatusCodes.notFound.messageCard });
     }
 
-    return res.status(statusCodes.OK).send(card);
+    return res.status(httpStatusCodes.ok.code).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       return res
-        .status(statusCodes.BAD_REQUEST)
-        .send({ message: 'Переданы некорректные данные' });
+        .status(httpStatusCodes.badRequest.code)
+        .send({ message: httpStatusCodes.badRequest.message });
     }
 
     return res
-      .status(statusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: 'Произошла внутренняя ошибка сервера' });
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 

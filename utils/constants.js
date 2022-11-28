@@ -1,9 +1,24 @@
-const statusCodes = {
-  OK: 200,
-  CREATED: 201,
-  BAD_REQUEST: 400,
-  NOT_FOUND: 404,
-  INTERNAL_SERVER_ERROR: 500,
+const httpStatusCodes = {
+  ok: {
+    code: 200,
+  },
+  created: {
+    code: 201,
+  },
+  badRequest: {
+    code: 400,
+    message: 'Переданы некорректные данные',
+  },
+  notFound: {
+    code: 404,
+    messageUser: 'Пользователь не найден',
+    messageCard: 'Карточка не найдена',
+    messagePage: 'Страница не найдена',
+  },
+  internalServerError: {
+    code: 500,
+    message: 'Произошла внутренняя ошибка сервера',
+  },
 };
 
-module.exports = statusCodes;
+module.exports = httpStatusCodes;

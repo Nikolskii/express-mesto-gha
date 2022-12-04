@@ -82,6 +82,10 @@ const getUser = async (req, res) => {
   }
 };
 
+const getCurrentUser = (req, res) => {
+  res.send(req);
+};
+
 const updateUser = async (req, res) => {
   const { name, about } = req.body;
   try {
@@ -155,6 +159,7 @@ module.exports = {
   login,
   getUsers,
   getUser,
+  getCurrentUser,
   createUser,
   updateUser,
   updateAvatar,

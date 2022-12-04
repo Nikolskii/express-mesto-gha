@@ -39,12 +39,19 @@ const getUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const { name, about, avatar } = req.body;
+  const { name, about, avatar, email, password } = req.body;
   try {
-    const user = await User.create({ name, about, avatar });
+    const user = await User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password,
+    });
 
     return res.status(httpStatusCodes.created.code).send(user);
   } catch (e) {
+    console.log(e.name);
     if (e.name === 'ValidationError') {
       return res
         .status(httpStatusCodes.badRequest.code)

@@ -82,8 +82,17 @@ const getUser = async (req, res) => {
   }
 };
 
-const getCurrentUser = (req, res) => {
-  res.send(req);
+const getCurrentUser = async (req, res) => {
+  const userId = req.user._id;
+  try {
+    const user = await User.findById(userId);
+    console.log(user);
+    return res.send({ _id: user._id, email: user.email });
+  } catch {
+    return res
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
+  }
 };
 
 const updateUser = async (req, res) => {

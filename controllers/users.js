@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const httpStatusCodes = require('../utils/constants');
 const User = require('../models/user');
 
@@ -7,7 +8,11 @@ const login = async (req, res) => {
   try {
     const user = await User.findUserByCredentials(email, password);
 
-    return res.send(user);
+    const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
+      expiresIn: '7d',
+    });
+
+    return res.send({ token });
   } catch (e) {
     return res.status(401).send({ message: e.message });
   }

@@ -18,10 +18,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/signin', controllers.login);
-
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
+
+app.post('/signin', controllers.login);
+app.post('/signup', controllers.createUser);
+
 app.use('*', (req, res) => {
   res
     .status(httpStatusCodes.notFound.code)

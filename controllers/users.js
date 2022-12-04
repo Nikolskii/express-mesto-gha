@@ -5,21 +5,38 @@ const User = require('../models/user');
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findUserByCredentials(email, password);
 
-    if (!user) {
-      return res.status(401).send({ message: 'Неправильные почта или пароль' });
-    }
-
-    const matchedPassword = await bcrypt.compare(password, user.password);
-
-    if (!matchedPassword) {
-      return res.status(401).send({ message: 'Неправильные почта или пароль' });
-    }
-
-    return res.send({ message: 'Всё верно!' });
+    return res.send(user);
   } catch (e) {
     return res.status(401).send({ message: e.message });
+  }
+};
+
+const createUser = async (req, res) => {
+  const { name, about, avatar, email, password } = req.body;
+  try {
+    const hashPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hashPassword,
+    });
+
+    return res.status(httpStatusCodes.created.code).send(user);
+  } catch (e) {
+    if (e.name === 'ValidationError') {
+      return res
+        .status(httpStatusCodes.badRequest.code)
+        .send({ message: httpStatusCodes.internalServerError.message });
+    }
+
+    return res
+      .status(httpStatusCodes.internalServerError.code)
+      .send({ message: httpStatusCodes.internalServerError.message });
   }
 };
 
@@ -52,33 +69,6 @@ const getUser = async (req, res) => {
       return res
         .status(httpStatusCodes.badRequest.code)
         .send({ message: httpStatusCodes.badRequest.message });
-    }
-
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
-  }
-};
-
-const createUser = async (req, res) => {
-  const { name, about, avatar, email, password } = req.body;
-  try {
-    const hashPassword = await bcrypt.hash(password, 10);
-
-    const user = await User.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hashPassword,
-    });
-
-    return res.status(httpStatusCodes.created.code).send(user);
-  } catch (e) {
-    if (e.name === 'ValidationError') {
-      return res
-        .status(httpStatusCodes.badRequest.code)
-        .send({ message: httpStatusCodes.internalServerError.message });
     }
 
     return res

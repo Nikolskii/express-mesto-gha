@@ -2,6 +2,27 @@ const bcrypt = require('bcryptjs');
 const httpStatusCodes = require('../utils/constants');
 const User = require('../models/user');
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).send({ message: 'Неправильные почта или пароль' });
+    }
+
+    const matchedPassword = await bcrypt.compare(password, user.password);
+
+    if (!matchedPassword) {
+      return res.status(401).send({ message: 'Неправильные почта или пароль' });
+    }
+
+    return res.send({ message: 'Всё верно!' });
+  } catch (e) {
+    return res.status(401).send({ message: e.message });
+  }
+};
+
 const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
@@ -136,6 +157,7 @@ const updateAvatar = async (req, res) => {
 };
 
 module.exports = {
+  login,
   getUsers,
   getUser,
   createUser,

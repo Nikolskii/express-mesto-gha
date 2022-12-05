@@ -9,6 +9,10 @@ const httpStatusCodes = {
     code: 400,
     message: 'Переданы некорректные данные',
   },
+  unauthorized: {
+    code: 401,
+    message: 'Неправильные почта или пароль',
+  },
   notFound: {
     code: 404,
     messageUser: 'Пользователь не найден',

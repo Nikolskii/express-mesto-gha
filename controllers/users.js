@@ -3,8 +3,9 @@ const jwt = require('jsonwebtoken');
 const httpStatusCodes = require('../utils/constants');
 const User = require('../models/user');
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   const { email, password } = req.body;
+
   try {
     const user = await User.findUserByCredentials(email, password);
 
@@ -14,12 +15,13 @@ const login = async (req, res) => {
 
     return res.send({ token });
   } catch (e) {
-    return res.status(401).send({ message: e.message });
+    next(e);
   }
 };
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
+
   try {
     const hashPassword = await bcrypt.hash(password, 10);
 
@@ -33,15 +35,7 @@ const createUser = async (req, res) => {
 
     return res.status(httpStatusCodes.created.code).send(user);
   } catch (e) {
-    if (e.name === 'ValidationError') {
-      return res
-        .status(httpStatusCodes.badRequest.code)
-        .send({ message: httpStatusCodes.internalServerError.message });
-    }
-
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 
@@ -59,6 +53,7 @@ const getUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   const { userId } = req.params;
+
   try {
     const user = await User.findById(userId);
 
@@ -84,6 +79,7 @@ const getUser = async (req, res) => {
 
 const getCurrentUser = async (req, res) => {
   const userId = req.user._id;
+
   try {
     const user = await User.findById(userId);
 
@@ -97,6 +93,7 @@ const getCurrentUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { name, about } = req.body;
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
@@ -132,6 +129,7 @@ const updateUser = async (req, res) => {
 
 const updateAvatar = async (req, res) => {
   const { avatar } = req.body;
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,

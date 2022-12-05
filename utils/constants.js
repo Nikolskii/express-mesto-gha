@@ -11,13 +11,17 @@ const httpStatusCodes = {
   },
   unauthorized: {
     code: 401,
-    message: 'Неправильные почта или пароль',
+    messages: 'Неправильные почта или пароль',
   },
   notFound: {
     code: 404,
     messageUser: 'Пользователь не найден',
     messageCard: 'Карточка не найдена',
     messagePage: 'Страница не найдена',
+  },
+  conflict: {
+    code: 409,
+    message: 'Пользователь с указанными данными уже зарегистрирован',
   },
   internalServerError: {
     code: 500,

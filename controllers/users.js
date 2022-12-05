@@ -86,9 +86,9 @@ const getCurrentUser = async (req, res) => {
   const userId = req.user._id;
   try {
     const user = await User.findById(userId);
-    console.log(user);
+
     return res.send({ _id: user._id, email: user.email });
-  } catch {
+  } catch (e) {
     return res
       .status(httpStatusCodes.internalServerError.code)
       .send({ message: httpStatusCodes.internalServerError.message });

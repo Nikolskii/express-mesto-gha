@@ -34,7 +34,19 @@ const createCard = async (req, res) => {
 
 const deleteCard = async (req, res) => {
   const { cardId } = req.params;
+  const userId = req.user._id;
+
   try {
+    const checkedCard = await Card.findById(cardId);
+
+    const cardOwnerId = checkedCard.owner.toString();
+
+    if (userId !== cardOwnerId) {
+      return res
+        .status(httpStatusCodes.badRequest.code)
+        .send({ message: httpStatusCodes.badRequest.message });
+    }
+
     const card = await Card.findByIdAndRemove(cardId);
 
     if (!card) {

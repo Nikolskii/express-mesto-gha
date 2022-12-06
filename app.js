@@ -7,13 +7,14 @@ const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const controllers = require('./controllers/users');
 const pageNotFound = require('./controllers/page-not-found');
+const { loginCelebrate, createUserCelebrate } = require('./validation/auth');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(express.json());
-app.post('/signin', controllers.login);
-app.post('/signup', controllers.createUser);
+app.post('/signin', loginCelebrate, controllers.login);
+app.post('/signup', createUserCelebrate, controllers.createUser);
 app.use(auth);
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);

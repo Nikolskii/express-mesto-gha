@@ -9,6 +9,12 @@ module.exports = (err, req, res, next) => {
       .send({ message: httpStatusCodes.badRequest.message });
   }
 
+  if (err.name === 'JsonWebTokenError') {
+    res
+      .status(httpStatusCodes.unauthorized.code)
+      .send({ message: httpStatusCodes.unauthorized.messages.incorrectToken });
+  }
+
   if (err.code === 11000) {
     res
       .status(httpStatusCodes.conflict.code)

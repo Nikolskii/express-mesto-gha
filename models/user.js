@@ -46,13 +46,17 @@ userSchema.statics.findUserByCredentials = async function (email, password) {
   const user = await this.findOne({ email }).select('+password');
 
   if (!user) {
-    throw new Unauthorized(httpStatusCodes.unauthorized.messages);
+    throw new Unauthorized(
+      httpStatusCodes.unauthorized.messages.incorrectUserData,
+    );
   }
 
   const matched = await bcrypt.compare(password, user.password);
 
   if (!matched) {
-    throw new Unauthorized(httpStatusCodes.unauthorized.messages);
+    throw new Unauthorized(
+      httpStatusCodes.unauthorized.messages.incorrectUserData,
+    );
   }
 
   return user;

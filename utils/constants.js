@@ -11,7 +11,10 @@ const httpStatusCodes = {
   },
   unauthorized: {
     code: 401,
-    messages: 'Неправильные почта или пароль',
+    messages: {
+      incorrectUserData: 'Неправильные почта или пароль',
+      incorrectToken: 'Необходима авторизация',
+    },
   },
   notFound: {
     code: 404,

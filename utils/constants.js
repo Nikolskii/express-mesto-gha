@@ -23,9 +23,6 @@ const httpStatusCodes = {
       card: 'Карточка не найдена',
       page: 'Страница не найдена',
     },
-    messageUser: 'Пользователь не найден',
-    messageCard: 'Карточка не найдена',
-    messagePage: 'Страница не найдена',
   },
   conflict: {
     code: 409,

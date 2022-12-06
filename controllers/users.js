@@ -40,7 +40,7 @@ const createUser = async (req, res, next) => {
   }
 };
 
-const getUsers = async (req, res) => {
+const getUsers = async (req, res, next) => {
   try {
     const users = await User.find({});
     return res.status(httpStatusCodes.ok.code).send(users);

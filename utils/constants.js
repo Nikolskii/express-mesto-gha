@@ -18,6 +18,11 @@ const httpStatusCodes = {
   },
   notFound: {
     code: 404,
+    messages: {
+      user: 'Пользователь не найден',
+      card: 'Карточка не найдена',
+      page: 'Страница не найдена',
+    },
     messageUser: 'Пользователь не найден',
     messageCard: 'Карточка не найдена',
     messagePage: 'Страница не найдена',

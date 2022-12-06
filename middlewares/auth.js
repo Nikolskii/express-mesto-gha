@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 const httpStatusCodes = require('../utils/constants');
-const Unauthorized = require('../errors/unauthorized-err');
+const UnauthorizedError = require('../errors/unauthorized-err');
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
   try {
     if (!authorization || !authorization.startsWith('Bearer ')) {
-      throw new Unauthorized(
+      throw new UnauthorizedError(
         httpStatusCodes.unauthorized.messages.incorrectToken,
       );
     }

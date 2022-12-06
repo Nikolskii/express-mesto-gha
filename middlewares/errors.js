@@ -15,6 +15,12 @@ module.exports = (err, req, res, next) => {
       .send({ message: httpStatusCodes.unauthorized.messages.incorrectToken });
   }
 
+  if (err.name === 'CastError') {
+    return res
+      .status(httpStatusCodes.badRequest.code)
+      .send({ message: httpStatusCodes.badRequest.message });
+  }
+
   if (err.code === 11000) {
     res
       .status(httpStatusCodes.conflict.code)

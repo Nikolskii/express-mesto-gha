@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const httpStatusCodes = require('../utils/constants');
 const User = require('../models/user');
+const NotFoundError = require('../errors/not-found-err');
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
@@ -42,42 +43,29 @@ const createUser = async (req, res, next) => {
 const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
-
     return res.status(httpStatusCodes.ok.code).send(users);
   } catch (e) {
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 
-const getUser = async (req, res) => {
+const getUser = async (req, res, next) => {
   const { userId } = req.params;
 
   try {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res
-        .status(httpStatusCodes.notFound.code)
-        .send({ message: httpStatusCodes.notFound.messageUser });
+      throw new NotFoundError(httpStatusCodes.notFound.messages.user);
     }
 
     return res.status(httpStatusCodes.ok.code).send(user);
   } catch (e) {
-    if (e.name === 'CastError') {
-      return res
-        .status(httpStatusCodes.badRequest.code)
-        .send({ message: httpStatusCodes.badRequest.message });
-    }
-
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 
-const getCurrentUser = async (req, res) => {
+const getCurrentUser = async (req, res, next) => {
   const userId = req.user._id;
 
   try {
@@ -85,13 +73,11 @@ const getCurrentUser = async (req, res) => {
 
     return res.send({ _id: user._id, email: user.email });
   } catch (e) {
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
   const { name, about } = req.body;
 
   try {
@@ -108,26 +94,16 @@ const updateUser = async (req, res) => {
     );
 
     if (!updatedUser) {
-      return res
-        .status(httpStatusCodes.notFound.code)
-        .send({ message: httpStatusCodes.notFound.messageUser });
+      throw new NotFoundError(httpStatusCodes.notFound.messages.user);
     }
 
     return res.status(httpStatusCodes.ok.code).send(updatedUser);
   } catch (e) {
-    if (e.name === 'ValidationError' || e.name === 'CastError') {
-      return res
-        .status(httpStatusCodes.badRequest.code)
-        .send({ message: httpStatusCodes.internalServerError.message });
-    }
-
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 
-const updateAvatar = async (req, res) => {
+const updateAvatar = async (req, res, next) => {
   const { avatar } = req.body;
 
   try {
@@ -143,22 +119,12 @@ const updateAvatar = async (req, res) => {
     );
 
     if (!updatedUser) {
-      return res
-        .status(httpStatusCodes.notFound.code)
-        .send({ message: httpStatusCodes.notFound.messageUser });
+      throw new NotFoundError(httpStatusCodes.notFound.messages.user);
     }
 
     return res.status(httpStatusCodes.ok.code).send(updatedUser);
   } catch (e) {
-    if (e.name === 'ValidationError' || e.name === 'CastError') {
-      return res
-        .status(httpStatusCodes.badRequest.code)
-        .send({ message: httpStatusCodes.badRequest.message });
-    }
-
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 

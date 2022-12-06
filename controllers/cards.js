@@ -1,38 +1,30 @@
 const httpStatusCodes = require('../utils/constants');
 const Card = require('../models/card');
+const BadRequestError = require('../errors/bad-request-err');
+const NotFoundError = require('../errors/not-found-err');
 
-const getCards = async (req, res) => {
+const getCards = async (req, res, next) => {
   try {
     const cards = await Card.find({});
 
     return res.status(httpStatusCodes.ok.code).send(cards);
   } catch (e) {
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 
-const createCard = async (req, res) => {
+const createCard = async (req, res, next) => {
   const { name, link } = req.body;
   try {
     const card = await Card.create({ name, link, owner: req.user._id });
 
     return res.status(httpStatusCodes.created.code).send(card);
   } catch (e) {
-    if (e.name === 'ValidationError') {
-      return res
-        .status(httpStatusCodes.badRequest.code)
-        .send({ message: httpStatusCodes.badRequest.message });
-    }
-
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 
-const deleteCard = async (req, res) => {
+const deleteCard = async (req, res, next) => {
   const { cardId } = req.params;
   const userId = req.user._id;
 
@@ -42,34 +34,22 @@ const deleteCard = async (req, res) => {
     const cardOwnerId = checkedCard.owner.toString();
 
     if (userId !== cardOwnerId) {
-      return res
-        .status(httpStatusCodes.badRequest.code)
-        .send({ message: httpStatusCodes.badRequest.message });
+      throw new BadRequestError(httpStatusCodes.badRequest.code);
     }
 
     const card = await Card.findByIdAndRemove(cardId);
 
     if (!card) {
-      return res
-        .status(httpStatusCodes.notFound.code)
-        .send({ message: httpStatusCodes.notFound.messageCard });
+      throw new NotFoundError(httpStatusCodes.notFound.messages.card);
     }
 
     return res.status(httpStatusCodes.ok.code).send(card);
   } catch (e) {
-    if (e.name === 'CastError') {
-      return res
-        .status(httpStatusCodes.badRequest.code)
-        .send({ message: httpStatusCodes.badRequest.message });
-    }
-
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 
-const likeCard = async (req, res) => {
+const likeCard = async (req, res, next) => {
   try {
     const card = await Card.findByIdAndUpdate(
       req.params.cardId,
@@ -78,26 +58,16 @@ const likeCard = async (req, res) => {
     );
 
     if (!card) {
-      return res
-        .status(httpStatusCodes.notFound.code)
-        .send({ message: httpStatusCodes.notFound.messageCard });
+      throw new NotFoundError(httpStatusCodes.notFound.messages.card);
     }
 
     return res.status(httpStatusCodes.ok.code).send(card);
   } catch (e) {
-    if (e.name === 'CastError') {
-      return res
-        .status(httpStatusCodes.badRequest.code)
-        .send({ message: httpStatusCodes.badRequest.message });
-    }
-
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 
-const dislikeCard = async (req, res) => {
+const dislikeCard = async (req, res, next) => {
   try {
     const card = await Card.findByIdAndUpdate(
       req.params.cardId,
@@ -106,22 +76,12 @@ const dislikeCard = async (req, res) => {
     );
 
     if (!card) {
-      return res
-        .status(httpStatusCodes.notFound.code)
-        .send({ message: httpStatusCodes.notFound.messageCard });
+      throw new NotFoundError(httpStatusCodes.notFound.messages.card);
     }
 
     return res.status(httpStatusCodes.ok.code).send(card);
   } catch (e) {
-    if (e.name === 'CastError') {
-      return res
-        .status(httpStatusCodes.badRequest.code)
-        .send({ message: httpStatusCodes.badRequest.message });
-    }
-
-    return res
-      .status(httpStatusCodes.internalServerError.code)
-      .send({ message: httpStatusCodes.internalServerError.message });
+    next(e);
   }
 };
 

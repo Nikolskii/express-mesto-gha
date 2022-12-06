@@ -1,6 +1,6 @@
 const httpStatusCodes = require('../utils/constants');
 
-module.exports = (err, req, res) => {
+module.exports = (err, req, res, next) => {
   const { statusCode = 500, message } = err;
 
   if (err.name === 'ValidationError') {

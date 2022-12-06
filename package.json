@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Nikolskii/express-mesto-gha#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "celebrate": "^15.0.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.3",

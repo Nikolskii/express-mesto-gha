@@ -3,10 +3,11 @@ const httpStatusCodes = require('../utils/constants');
 module.exports = (err, req, res, next) => {
   const { statusCode = 500, message } = err;
 
+  console.log(err.name);
+  console.log(err.message);
+
   if (err.name === 'ValidationError') {
-    res
-      .status(httpStatusCodes.badRequest.code)
-      .send({ message: httpStatusCodes.badRequest.message });
+    res.status(httpStatusCodes.badRequest.code).send({ message: err.message });
   }
 
   if (err.name === 'JsonWebTokenError') {

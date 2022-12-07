@@ -20,6 +20,13 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
+      validate: {
+        validator: (v) =>
+          /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/.test(
+            v,
+          ),
+        message: 'Недопустимый URL-адрес',
+      },
       default:
         'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     },

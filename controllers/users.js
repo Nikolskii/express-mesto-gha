@@ -71,11 +71,13 @@ const getCurrentUser = async (req, res, next) => {
   try {
     const user = await User.findById(userId);
 
-    if (user) {
-      return res
-        .status(httpStatusCodes.ok.code)
-        .send({ _id: user._id, email: user.email });
+    if (!user) {
+      throw new NotFoundError(httpStatusCodes.notFound.messages.user);
     }
+
+    return res
+      .status(httpStatusCodes.ok.code)
+      .send({ _id: user._id, email: user.email });
   } catch (e) {
     next(e);
   }

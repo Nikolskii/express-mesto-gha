@@ -13,4 +13,14 @@ const updateAvatarCelebrate = celebrate({
   }),
 });
 
-module.exports = { updateUserCelebrate, updateAvatarCelebrate };
+const getUserCelebrate = celebrate({
+  params: Joi.object().keys({
+    userId: Joi.string().max(24).required(),
+  }),
+});
+
+module.exports = {
+  updateUserCelebrate,
+  updateAvatarCelebrate,
+  getUserCelebrate,
+};

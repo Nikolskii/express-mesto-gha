@@ -9,7 +9,7 @@ const updateUserCelebrate = celebrate({
 
 const updateAvatarCelebrate = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string(),
+    avatar: Joi.string().dataUri(),
   }),
 });
 

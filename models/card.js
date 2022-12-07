@@ -11,6 +11,11 @@ const cardSchema = new mongoose.Schema(
     link: {
       type: String,
       required: true,
+      validate: {
+        validator: (v) =>
+          /(http|https):\/\/(w{3}\.)?[0-9a-z-._~:/?#[\]@!$&'()*+,;=,]/.test(v),
+        message: 'Недопустимый URL-адрес',
+      },
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,

@@ -22,9 +22,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       validate: {
         validator: (v) =>
-          /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/.test(
-            v,
-          ),
+          /(http|https):\/\/(w{3}\.)?[0-9a-z-._~:/?#[\]@!$&'()*+,;=,]/.test(v),
         message: 'Недопустимый URL-адрес',
       },
       default:

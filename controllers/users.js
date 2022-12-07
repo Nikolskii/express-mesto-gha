@@ -71,6 +71,10 @@ const getCurrentUser = async (req, res, next) => {
   try {
     const user = await User.findById(userId);
 
+    if (!user) {
+      throw new NotFoundError(httpStatusCodes.notFound.messages.user);
+    }
+
     return res.send({ _id: user._id, email: user.email });
   } catch (e) {
     next(e);

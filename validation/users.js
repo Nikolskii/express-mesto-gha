@@ -9,13 +9,13 @@ const updateUserCelebrate = celebrate({
 
 const updateAvatarCelebrate = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string(),
+    avatar: Joi.string().uri({ scheme: ['http', 'https'] }),
   }),
 });
 
 const getUserCelebrate = celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().max(24).required(),
+    userId: Joi.string().length(24).hex().required(),
   }),
 });
 

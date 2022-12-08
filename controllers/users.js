@@ -34,7 +34,12 @@ const createUser = async (req, res, next) => {
       password: hashPassword,
     });
 
-    return res.status(httpStatusCodes.created.code).send(user);
+    return res.status(httpStatusCodes.created.code).send({
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.email,
+    });
   } catch (e) {
     next(e);
   }

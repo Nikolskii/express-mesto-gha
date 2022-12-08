@@ -13,6 +13,7 @@ const cardSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: (v) =>
+          // eslint-disable-next-line implicit-arrow-linebreak
           /(http|https):\/\/(w{3}\.)?[0-9a-z-._~:/?#[\]@!$&'()*+,;=,]/.test(v),
         message: 'Недопустимый URL-адрес',
       },

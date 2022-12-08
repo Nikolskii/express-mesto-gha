@@ -31,4 +31,6 @@ module.exports = (err, req, res, next) => {
         ? httpStatusCodes.internalServerError.message
         : message,
   });
+
+  next();
 };

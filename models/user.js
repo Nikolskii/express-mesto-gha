@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       validate: {
         validator: (v) =>
+          // eslint-disable-next-line implicit-arrow-linebreak
           /(http|https):\/\/(w{3}\.)?[0-9a-z-._~:/?#[\]@!$&'()*+,;=,]/.test(v),
         message: 'Недопустимый URL-адрес',
       },
@@ -47,6 +48,7 @@ const userSchema = new mongoose.Schema(
   { versionKey: false },
 );
 
+// eslint-disable-next-line func-names
 userSchema.statics.findUserByCredentials = async function (email, password) {
   const user = await this.findOne({ email }).select('+password');
 

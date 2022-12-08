@@ -16,6 +16,10 @@ const httpStatusCodes = {
       incorrectToken: 'Необходима авторизация',
     },
   },
+  forbidden: {
+    code: 403,
+    message: 'Не хватает прав доступа',
+  },
   notFound: {
     code: 404,
     messages: {

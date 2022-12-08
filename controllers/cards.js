@@ -2,6 +2,7 @@ const httpStatusCodes = require('../utils/constants');
 const Card = require('../models/card');
 const BadRequestError = require('../errors/bad-request-err');
 const NotFoundError = require('../errors/not-found-err');
+const ForbiddenError = require('../errors/forbidden-err');
 
 const getCards = async (req, res, next) => {
   try {
@@ -31,17 +32,17 @@ const deleteCard = async (req, res, next) => {
   try {
     const checkedCard = await Card.findById(cardId);
 
+    if (!checkedCard) {
+      throw new NotFoundError(httpStatusCodes.notFound.messages.card);
+    }
+
     const cardOwnerId = checkedCard.owner.toString();
 
     if (userId !== cardOwnerId) {
-      throw new BadRequestError(httpStatusCodes.badRequest.code);
+      throw new ForbiddenError(httpStatusCodes.forbidden.message);
     }
 
     const card = await Card.findByIdAndRemove(cardId);
-
-    if (!card) {
-      throw new NotFoundError(httpStatusCodes.notFound.messages.card);
-    }
 
     return res.status(httpStatusCodes.ok.code).send(card);
   } catch (e) {

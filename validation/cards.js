@@ -9,4 +9,27 @@ const createCardCelebrate = celebrate({
   }),
 });
 
-module.exports = { createCardCelebrate };
+const likeCardCelebrate = celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().length(24).hex().required(),
+  }),
+});
+
+const dislikeCardCelebrate = celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().length(24).hex().required(),
+  }),
+});
+
+const deleteCardCelebrate = celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().length(24).hex().required(),
+  }),
+});
+
+module.exports = {
+  createCardCelebrate,
+  likeCardCelebrate,
+  dislikeCardCelebrate,
+  deleteCardCelebrate,
+};

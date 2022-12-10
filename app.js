@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const { limiter } = require('./middlewares/limiter');
 const errorHandler = require('./middlewares/errors');
 const auth = require('./middlewares/auth');
 const usersRouter = require('./routes/users');
@@ -12,6 +13,7 @@ const { loginCelebrate, createUserCelebrate } = require('./validation/auth');
 const { PORT = 3000 } = process.env;
 const app = express();
 
+app.use(limiter);
 app.use(express.json());
 app.post('/signin', loginCelebrate, controllers.login);
 app.post('/signup', createUserCelebrate, controllers.createUser);

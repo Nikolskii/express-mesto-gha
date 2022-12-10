@@ -12,7 +12,6 @@ const login = async (req, res, next) => {
   try {
     const user = await User.findUserByCredentials(email, password);
 
-    // const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
     const token = jwt.sign(
       { _id: user._id },
       NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',

@@ -5,14 +5,21 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 
 const login = async (req, res, next) => {
+  const { NODE_ENV, JWT_SECRET } = process.env;
+
   const { email, password } = req.body;
 
   try {
     const user = await User.findUserByCredentials(email, password);
 
-    const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
-      expiresIn: '7d',
-    });
+    // const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
+    const token = jwt.sign(
+      { _id: user._id },
+      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+      {
+        expiresIn: '7d',
+      },
+    );
 
     return res.send({ token });
   } catch (e) {

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
@@ -13,6 +14,8 @@ const { loginCelebrate, createUserCelebrate } = require('./validation/auth');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+
+// console.log(process.env.JWT_SECRET);
 
 app.use(helmet());
 app.use(limiter);

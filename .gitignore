@@ -2,7 +2,6 @@
 logs
 *.log
 npm-debug.log*
-todo
 
 # Dependency directory
 node_modules
@@ -14,3 +13,4 @@ node_modules
 .DS_Store
 .idea
 .vscode
+.env

@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const { limiter } = require('./middlewares/limiter');
 const errorHandler = require('./middlewares/errors');
 const auth = require('./middlewares/auth');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const controllers = require('./controllers/users');
@@ -15,17 +16,17 @@ const { loginCelebrate, createUserCelebrate } = require('./validation/auth');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-// console.log(process.env.JWT_SECRET);
-
 app.use(helmet());
 app.use(limiter);
 app.use(express.json());
+app.use(requestLogger);
 app.post('/signin', loginCelebrate, controllers.login);
 app.post('/signup', createUserCelebrate, controllers.createUser);
 app.use(auth);
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 app.use('*', pageNotFound);
+app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 

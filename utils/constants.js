@@ -13,7 +13,7 @@ const httpStatusCodes = {
     code: 401,
     messages: {
       incorrectUserData: 'Неправильные почта или пароль',
-      incorrectToken: 'Необходима авторизация!',
+      incorrectToken: 'Необходима авторизация',
     },
   },
   forbidden: {
